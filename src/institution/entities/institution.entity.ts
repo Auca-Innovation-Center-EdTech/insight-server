@@ -1,3 +1,4 @@
+import { Credential } from "src/credential/entities/credential.entity";
 import { Employee } from "src/employee/entities/employee.entity";
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 @Entity()
@@ -19,5 +20,8 @@ export class Institution {
 
      @OneToMany(() => Employee, (employee) => employee.institution)
      employees: Promise<Array<Employee>>
+
+     @OneToMany(() => Credential, credential => credential.institution)
+     credentials: Promise<Array<Credential>>
 
 }

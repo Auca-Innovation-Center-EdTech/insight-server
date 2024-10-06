@@ -1,26 +1,40 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateCredentialDto } from './dto/create-credential.dto';
 import { UpdateCredentialDto } from './dto/update-credential.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Credential } from './entities/credential.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class CredentialService {
-  create(createCredentialDto: CreateCredentialDto) {
-    return 'This action adds a new credential';
+
+  constructor(
+    @InjectRepository(Credential)
+    private readonly credentialRepo: Repository<Credential>
+  ){}
+  async create(createCredentialDto: CreateCredentialDto) {
+    const credential = this.credentialRepo.create(createCredentialDto);
+    return await this.credentialRepo.save(credential);  
   }
 
-  findAll() {
-    return `This action returns all credential`;
+  async findAll() {
+    return await this.credentialRepo.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} credential`;
+  async findOne(id: string) {
+    return await this.credentialRepo.findOne({where: {credentialId:id}});
   }
 
-  update(id: number, updateCredentialDto: UpdateCredentialDto) {
-    return `This action updates a #${id} credential`;
+  async update(id: string, updateCredentialDto: UpdateCredentialDto) {
+    const credential = await this.credentialRepo.findOne({where: {credentialId: id}});
+    if(!credential) throw new NotFoundException();
+    Object.assign(credential, updateCredentialDto);
+    return await this.credentialRepo.save(credential);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} credential`;
+  async remove(id: string) {
+    const credential = await this.credentialRepo.findOne({where: {credentialId: id}});
+    if(!credential) throw new NotFoundException();
+    return await this.credentialRepo.remove(credential);
   }
 }
