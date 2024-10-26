@@ -12,6 +12,9 @@ export class Staff {
      @Column({unique: true, nullable:false})
      email: string
 
+     @Column()
+     password: string
+
      @Column({nullable:false})
      role: string
 

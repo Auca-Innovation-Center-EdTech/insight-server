@@ -23,7 +23,7 @@ export class InstitutionService {
   }
 
   async findOne(id: number) {
-    return this.findOne(id);
+    return this.institutionRepo.findOne({where: {id}});
   }
 
   async update(id: number, updateInstitutionDto: UpdateInstitutionDto) {
