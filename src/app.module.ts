@@ -8,6 +8,8 @@ import { InstitutionModule } from './institution/institution.module';
 import { StaffModule } from './staff/staff.module';
 import { EmployeeModule } from './employee/employee.module';
 import { CredentialModule } from './credential/credential.module';
+import { UserModule } from './user/user.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -31,6 +33,8 @@ import { CredentialModule } from './credential/credential.module';
     InstitutionModule,
     EmployeeModule,
     CredentialModule,
+    UserModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

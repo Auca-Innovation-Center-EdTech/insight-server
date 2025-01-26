@@ -1,5 +1,6 @@
+import { Employee } from "src/employee/entities/employee.entity";
 import { Institution } from "src/institution/entities/institution.entity";
-import { Column, Entity, ManyToOne, PrimaryColumn} from "typeorm";
+import { Column, Entity, JoinTable, ManyToMany, ManyToOne, PrimaryColumn} from "typeorm";
 
 @Entity()
 export class Credential {
@@ -7,10 +8,11 @@ export class Credential {
      credentialId:string
 
      @Column()
-     document: string
-
-     @Column()
      issueDate: Date
+
+     @ManyToMany(() => Employee, employee => employee.credetialsSigned)
+     @JoinTable()
+     signees: Array<Employee>
 
      @ManyToOne(() => Institution, institution => institution.credentials)
      institution: Institution
